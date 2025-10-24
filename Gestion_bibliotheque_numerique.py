@@ -15,7 +15,6 @@ class Utilisateur:
         self.identifiant = identifiant
         self.nom = nom
         self.email = email
-
     pass
 
 class Lecteur(Utilisateur):
@@ -27,9 +26,13 @@ class Lecteur(Utilisateur):
 class Bibliothecaire(Utilisateur):
     def __init__(self, identifiant, nom, email, usertype):
         Utilisateur.__init__(self, identifiant, nom, email)
-        self.usertype = "bibliotecaire"
+        self.usertype = "bibliothecaire"
     pass
 
 class Bibliotheque:
+    def __init__(self):
+        self.livres = []
+        self.utilisateurs = {}
+        self.emprunts = {}
     pass
 
