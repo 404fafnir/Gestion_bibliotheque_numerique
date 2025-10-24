@@ -11,15 +11,25 @@ class Livre:
     pass
 
 class Utilisateur:
+    def __init__(self, identifiant, nom, email):
+        self.identifiant = identifiant
+        self.nom = nom
+        self.email = email
+
     pass
 
 class Lecteur(Utilisateur):
+    def __init__(self, identifiant, nom, email, usertype):
+        Utilisateur.__init__(self, identifiant, nom, email)
+        self.usertype = "lecteur"
     pass
 
 class Bibliothecaire(Utilisateur):
+    def __init__(self, identifiant, nom, email, usertype):
+        Utilisateur.__init__(self, identifiant, nom, email)
+        self.usertype = "bibliotecaire"
     pass
 
 class Bibliotheque:
     pass
 
-# Système de Gestion Bibliothèque Numérique
