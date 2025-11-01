@@ -29,13 +29,13 @@ class Utilisateur:
 
 class Lecteur(Utilisateur):
     def __init__(self, identifiant, nom, email):
-        super().__init__(self, identifiant, nom, email)
+        super().__init__(identifiant, nom, email)
         self.usertype = "lecteur"
     pass
 
 class Bibliothecaire(Utilisateur):
     def __init__(self, identifiant, nom, email):
-        super().__init__(self, identifiant, nom, email)
+        super().__init__(identifiant, nom, email)
         self.usertype = "bibliothecaire"
     pass
 
@@ -106,10 +106,18 @@ class Bibliotheque:
         pass
 
     def ajouter_utilisateur(self, utilisateur):
-        pass
+        if utilisateur.identifiant in self.utilisateurs:
+            print(f"/!\\ Un utilisateur avec l'ID {utilisateur.identifiant} existe déjà.")
+            return
+        self.utilisateurs[utilisateur.identifiant] = utilisateur
+        print(f"Utilisateur ajouté : {utilisateur.nom} ({utilisateur.usertype})")
 
     def supprimer_utilisateur(self, utilisateur):
-        pass
+        if utilisateur.identifiant not in self.utilisateurs:
+            print("/!\\ Utilisateur introuvable.")
+            return
+        del self.utilisateurs[utilisateur.identifiant]
+        print(f"Utilisateur supprimé : {utilisateur.nom}")
 
     def emprunter_livre(self, livre, utilisateur):
         if not isinstance(utilisateur, Lecteur):
@@ -158,4 +166,15 @@ class Bibliotheque:
         return
                 
     def statistiques_livres(self):
-        pass
+        total_livres = len(self.livres)
+        total_lecteurs=0
+        total_emprunts=0
+        for u in self.utilisateurs.values():
+            if isinstance(u, Lecteur):
+                total_lecteurs+=1
+        for e in self.emprunts:
+            total_emprunts+=1
+        print("=== Statistiques de la bibliothèque ===")
+        print(f"Nombre total de livres : {total_livres}")
+        print(f"Nombre total de lecteurs : {total_lecteurs}")
+        print(f"Nombre total de livres empruntés : {total_emprunts}")
