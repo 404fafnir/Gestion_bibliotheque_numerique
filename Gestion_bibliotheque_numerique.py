@@ -1,5 +1,5 @@
 # Système de Gestion Bibliothèque Numérique
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Livre:
 
@@ -160,6 +160,8 @@ class Bibliotheque:
                 livre.status = "disponible" if livre.nbexemplaires > 0 else "emprunté"
                 self.emprunts[utilisateur.identifiant].remove(i)
                 print(f"{utilisateur.nom} a rendu '{livre.titre}' le {datetime.now().strftime('%d/%m/%Y')}")
+                if datetime.now() - i["date_emprunt"] > timedelta(days=14):
+                    print("/!\ Le lecteur a garder le livre plus de 14 jours")
                 return
 
         print("/!\ Livre introuvable dans les emprunts du lecteur.")
@@ -183,7 +185,9 @@ biblio = Bibliotheque()
 admin = Bibliothecaire(1, "admin", "admin@test.com")
 exempleLecteur = Lecteur(2, "Jean Dupont", "jean.dupont@test.com")
 exempleLivre = Livre("Les Contemplations", "Victor Hugo", "Poèmes", 10)
-
+biblio.ajouter_utilisateur(admin)
+biblio.ajouter_utilisateur(exempleLecteur)
+biblio.ajouter_livres(exempleLivre, admin)
 
 while True:
     print("\n--- Menu Principal ---")
@@ -275,7 +279,7 @@ while True:
                     mail = input("Entrer le mail du lecteur qui veut emprunter :")
                     utilisateur = None
                     livre = None
-                    for u in biblio.utilisateurs:
+                    for u in biblio.utilisateurs.values():
                         if u.email == mail:
                             utilisateur = u
                     titre = input("Entrer le titre du livre à emprunter :")
@@ -288,7 +292,7 @@ while True:
                     mail = input("Entrer le mail du lecteur qui rend le livre :")
                     utilisateur = None
                     livre = None
-                    for u in biblio.utilisateurs:
+                    for u in biblio.utilisateurs.values():
                         if u.email == mail:
                             utilisateur = u
                     titre = input("Entrer le titre du livre rendu :")
